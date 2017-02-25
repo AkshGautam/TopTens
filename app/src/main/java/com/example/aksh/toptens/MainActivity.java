@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ArrayList<Track> track=new ArrayList<Track>();
  //       track.add(new Track("ed sheeran","shape of you","1","1"));
-//        track.add(new Track("Ed Sheeran","Castle on Hill","2","5"));
+ //       track.add(new Track("Ed Sheeran","Castle on Hill","2","5"));
 //        track.add(new Track("zayn malik","i dont wanna live forever","3","6"));
 //        track.add(new Track("chainsmokers","Closer","4","2"));
 //        track.add(new Track("Weeknd","Starboy","5","2"));
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected List<Track> doInBackground(String... url) {
-            List<Track> result= null;
+            List<Track> result= new ArrayList<>();
             try {
                 result = QueryUtils.fetchData(url[0]);
             } catch (XmlPullParserException e) {
@@ -62,9 +62,11 @@ public class MainActivity extends AppCompatActivity {
         }
         @Override
         protected void onPostExecute(List<Track> result) {
-            adapter.clear();
+         //   adapter.clear();
             if (result!= null && !result.isEmpty())
             adapter.addAll(result);
+            Log.v("On Post Execute","I am in On Post Execute method");
+            Log.v("RESULT",result.get(0).getArtist());
             if(result.isEmpty());
                 Log.v("message","empty");
         }

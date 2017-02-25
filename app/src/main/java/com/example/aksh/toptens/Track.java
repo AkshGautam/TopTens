@@ -9,7 +9,7 @@ public class Track {
     private String Artist;
     private String Current_ranking;
     private String Previous_ranking;
-    private String url;
+
 
     public Track(String title, String artist, String current_ranking, String previous_ranking) {
         this.title = title;
