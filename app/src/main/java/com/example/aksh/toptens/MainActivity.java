@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         }
         @Override
         protected void onPostExecute(List<Track> result) {
-         //   adapter.clear();
+            adapter.clear();
             if (result!= null && !result.isEmpty())
             adapter.addAll(result);
             Log.v("On Post Execute","I am in On Post Execute method");
