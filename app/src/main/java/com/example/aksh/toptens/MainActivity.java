@@ -52,10 +52,10 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 
                 // Convert the String URL into a URI object (to pass into the Intent constructor)
-                Uri earthquakeUri = Uri.parse("http://www.billboard.com/charts/hot-100");
+                Uri songsUri = Uri.parse("http://www.billboard.com/charts/hot-100");
 
-                // Create a new intent to view the earthquake URI
-                Intent websiteIntent = new Intent(Intent.ACTION_VIEW, earthquakeUri);
+
+                Intent websiteIntent = new Intent(Intent.ACTION_VIEW, songsUri);
 
                 // Send the intent to launch a new activity
                 startActivity(websiteIntent);
@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
             adapter.addAll(result);
             Log.v("On Post Execute","I am in On Post Execute method");
             Log.v("RESULT",result.get(0).getArtist());
-            if(result.isEmpty());
+            if(result.isEmpty())
                 Log.v("message","empty");
         }
 
