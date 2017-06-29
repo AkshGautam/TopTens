@@ -25,23 +25,12 @@ import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 
 public class QueryUtils {
     private static String ns = null;
-//    private static String title = null;
-//    private static String summary = null;
-//    private static String rank_this_week = null;
-//    private static String rank_last_week = null;
 
     public static List<Track> fetchData(String urlString) throws XmlPullParserException, IOException {
 
         InputStream stream = null;
         List<Track> entries = new ArrayList<Track>();
         // Instantiate the parser
-//        StackOverflowXmlParser stackOverflowXmlParser = new StackOverflowXmlParser();
-
-
-//        StringBuilder htmlString = new StringBuilder();
-//        htmlString.append("<h3>" + getResources().getString(R.string.page_title) + "</h3>");
-//        htmlString.append("<em>" + getResources().getString(R.string.updated) + " " +
-//                formatter.format(rightNow.getTime()) + "</em>");
 
         try {
             stream = downloadUrl(urlString);
@@ -54,21 +43,6 @@ public class QueryUtils {
                 stream.close();
             }
         }
-//
-//        // StackOverflowXmlParser returns a List (called "entries") of Entry objects.
-//        // Each Entry object represents a single post in the XML feed.
-//        // This section processes the entries list to combine each entry with HTML markup.
-//        // Each entry is displayed in the UI as a link that optionally includes
-//        // a text summary.
-//        for (Entry entry : entries) {
-//            htmlString.append("<p><a href='");
-//            htmlString.append(entry.link);
-//            htmlString.append("'>" + entry.title + "</a></p>");
-//            // If the user set the preference to include summary text,
-//            // adds it to the display.
-//            if (pref) {
-//                htmlString.append(entry.summary);
-//            }
         if (entries.isEmpty()) ;
         Log.v("message", "empty entries");
         return entries;
@@ -183,18 +157,7 @@ public class QueryUtils {
             else {
                 skip(parser);
             }
-//            if(title_count==1&&artist_count==1)
-//            {
-//                Track track=new Track(title,summary,rank_last_week,rank_this_week);
-//                var.add(track);
-//                title_count=artist_count=0;
-//            }
-//            if(parser.next()==XmlPullParser.END_TAG)
-//            {
-//                Log.v("final check",title+" "+summary+" "+rank_last_week+" "+rank_this_week);
-//                Track track=new Track(title,summary,rank_last_week,rank_this_week);
-//                var.add(track);
-//            }
+
             if(title_count!=0&&last_count!=0&&this_count!=0&&artist_count!=0) {
 
                 //Track track = new Track(title,summary, rank_this_week, rank_last_week);
@@ -218,21 +181,6 @@ public class QueryUtils {
         return title;
     }
 
-//    // Processes link tags in the feed.
-//    private String readLink(XmlPullParser parser) throws IOException, XmlPullParserException {
-//        String link = "";
-//        parser.require(XmlPullParser.START_TAG, ns, "link");
-//        String tag = parser.getName();
-//        String relType = parser.getAttributeValue(null, "rel");
-//        if (tag.equals("link")) {
-//            if (relType.equals("alternate")){
-//                link = parser.getAttributeValue(null, "href");
-//                parser.nextTag();
-//            }
-//        }
-//        parser.require(XmlPullParser.END_TAG, ns, "link");
-//        return link;
-//    }
 
     // Processes summary tags in the feed.
     private static String readArtist(XmlPullParser parser) throws IOException, XmlPullParserException {

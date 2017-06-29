@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.app.LoaderManager;
 import android.app.LoaderManager.LoaderCallbacks;
@@ -21,6 +22,7 @@ import java.util.List;
 
 import static android.R.attr.data;
 import static android.R.attr.entries;
+import static android.R.attr.start;
 
 public class MainActivity extends AppCompatActivity {
     private TrackAdapter adapter;
@@ -31,18 +33,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ArrayList<Track> track=new ArrayList<Track>();
- //       track.add(new Track("ed sheeran","shape of you","1","1"));
- //       track.add(new Track("Ed Sheeran","Castle on Hill","2","5"));
-//        track.add(new Track("zayn malik","i dont wanna live forever","3","6"));
-//        track.add(new Track("chainsmokers","Closer","4","2"));
-//        track.add(new Track("Weeknd","Starboy","5","2"));
-//        track.add(new Track("Weeknd","Starboy","5","2"));
-//        track.add(new Track("Weeknd","Starboy","5","2"));
-//        track.add(new Track("Weeknd","Starboy","5","2"));
-//        track.add(new Track("Weeknd","Starboy","5","2"));
-//        track.add(new Track("Weeknd","Starboy","5","2"));
-//        track.add(new Track("Weeknd","Starboy","5","2"));
-//        track.add(new Track("Weeknd","Starboy","5","2"));
         adapter=new TrackAdapter(this,R.layout.activity_main,track);
         ListView listView = (ListView) findViewById(R.id.list);
 
@@ -53,12 +43,13 @@ public class MainActivity extends AppCompatActivity {
 
                 // Convert the String URL into a URI object (to pass into the Intent constructor)
                 Uri songsUri = Uri.parse("http://www.billboard.com/charts/hot-100");
+/*****commenting just for now*****/
 
-
-                Intent websiteIntent = new Intent(Intent.ACTION_VIEW, songsUri);
-
-                // Send the intent to launch a new activity
-                startActivity(websiteIntent);
+//                Intent websiteIntent = new Intent(Intent.ACTION_VIEW, songsUri);
+//
+//                // Send the intent to launch a new activity
+//                startActivity(websiteIntent);
+                /*****here***/
             }
         });
         DownloadXmlTask task = new DownloadXmlTask();
@@ -90,6 +81,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
+    public void sendIntent(View view)
+    {
+        Intent i=new Intent(this,Play_Activity.class);
+                startActivity(i);
+    }
 
 }

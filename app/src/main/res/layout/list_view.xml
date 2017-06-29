@@ -30,7 +30,8 @@
         android:layout_marginLeft="20dp"
         android:layout_marginStart="16dp"
         android:layout_weight="1"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:onClick="sendIntent">
 
         <TextView
             android:id="@+id/song"
