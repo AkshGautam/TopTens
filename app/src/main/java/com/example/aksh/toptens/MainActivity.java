@@ -58,6 +58,8 @@ public class MainActivity extends AppCompatActivity {
                         search_parameter+=search.charAt(i);
                 }
                 search_parameter+='+';
+                String off="official+video+";
+                search_parameter+=off;
                 Log.v("search_para",search_parameter);
                 Play_Activity send=new Play_Activity();
                 String youtube_api="https://www.googleapis.com/youtube/v3/search?part=snippet&q="+search_parameter+"&key=AIzaSyAtdhAC_nNYYQye4_zrA6Yifwd0rZgsxrE";
