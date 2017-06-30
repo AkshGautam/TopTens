@@ -37,7 +37,7 @@ public class QueryUtils {
             Log.v("parse", "parsing stream");
             entries = parse(stream);
             // Makes sure that the InputStream is closed after the app is
-            // finished using it.
+            // finished using.
         } finally {
             if (stream != null) {
                 stream.close();
