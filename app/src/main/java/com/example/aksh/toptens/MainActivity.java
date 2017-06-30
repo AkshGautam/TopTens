@@ -1,5 +1,6 @@
 package com.example.aksh.toptens;
 
+import android.app.LoaderManager;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -8,11 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.app.LoaderManager;
-import android.app.LoaderManager.LoaderCallbacks;
-import android.content.Loader;
+
 
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -20,12 +18,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.R.attr.data;
-import static android.R.attr.entries;
-import static android.R.attr.start;
 
 public class MainActivity extends AppCompatActivity {
     private TrackAdapter adapter;
+
+
+
     private static final String Api="http://www.billboard.com/rss/charts/hot-100";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,20 +39,44 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 
-                // Convert the String URL into a URI object (to pass into the Intent constructor)
-                Uri songsUri = Uri.parse("http://www.billboard.com/charts/hot-100");
-/*****commenting just for now*****/
+                Track current=(Track)adapterView.getItemAtPosition(position);
+                String search=current.getTitle()+" by "+current.getArtist();
+                String search_parameter="+";
+                int j;
+                for(j=0;j<search.length();j++)
+                {
+                    if(search.charAt(j)==' ')
+                        break;
 
-//                Intent websiteIntent = new Intent(Intent.ACTION_VIEW, songsUri);
-//
-//                // Send the intent to launch a new activity
-//                startActivity(websiteIntent);
-                /*****here***/
+                }
+
+                for(int i=j+1;i<search.length();i++)
+                {
+                    if(search.charAt(i)==' ')
+                        search_parameter+='+';
+                    else
+                        search_parameter+=search.charAt(i);
+                }
+                search_parameter+='+';
+                Log.v("search_para",search_parameter);
+                Play_Activity send=new Play_Activity();
+                String youtube_api="https://www.googleapis.com/youtube/v3/search?part=snippet&q="+search_parameter+"&key=AIzaSyAtdhAC_nNYYQye4_zrA6Yifwd0rZgsxrE";
+//                send.recievekey(youtube_api);
+                Log.v("Current API is",youtube_api);
+                Log.v("Current song is",current.getTitle());
+    // SENDING API TO DIFFERENT ACTIVITY BY ADDING A YOUTUBE KEY PARAMETER IN INTENT
+                Intent i=new Intent(getApplicationContext(),Play_Activity.class);
+                i.putExtra("youtube",youtube_api);
+                startActivity(i);
+
             }
         });
         DownloadXmlTask task = new DownloadXmlTask();
         task.execute(Api);
     }
+
+
+
     public class DownloadXmlTask extends AsyncTask<String,Void,List<Track>> {
 
         @Override
@@ -81,10 +103,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-    public void sendIntent(View view)
-    {
-        Intent i=new Intent(this,Play_Activity.class);
-                startActivity(i);
-    }
+
+
 
 }
