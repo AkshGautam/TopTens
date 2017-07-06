@@ -3,12 +3,29 @@ package com.example.aksh.toptens;
 import android.app.LoaderManager;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Loader;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.DocumentsContract;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
+import java.io.IOException;
+import java.util.List;
+
+import static android.R.attr.banner;
+import static com.example.aksh.toptens.R.id.artist;
+import static com.example.aksh.toptens.R.id.song;
 
 
 public class Play_Activity extends YouTubeBaseActivity implements LoaderCallbacks<String> {
@@ -17,13 +34,39 @@ public class Play_Activity extends YouTubeBaseActivity implements LoaderCallback
     private String play;
     private YouTubePlayerView youTubePlayerView;
     private YouTubePlayer.OnInitializedListener onInitializedListener;
+    TextView textView;
+    String newSong="",newArtist="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
+            String song,artist;
              youtube_song = extras.getString("youtube");
+            song=extras.getString("song");
+            artist=extras.getString("artist");
+            artist=artist.toLowerCase();
+            Log.v("artist",artist);
+            song=song.toLowerCase();
+            song=song.split(" ",2)[1];
+            for(int i=0;i<song.length();i++)
+            {
+                if(song.charAt(i)==' ')
+                    continue;
+                else
+                    newSong+=song.charAt(i);
+
+            }
+            for(int i=0;i<artist.length();i++)
+            {
+                if(artist.charAt(i)==' ')
+                    continue;
+                else
+                    newArtist+=artist.charAt(i);
+            }
+
+
 //get the value based on the key
         }
         youTubePlayerView=(YouTubePlayerView)findViewById(R.id.youtube_player);
@@ -43,8 +86,15 @@ public class Play_Activity extends YouTubeBaseActivity implements LoaderCallback
         };
         LoaderManager loaderManager = getLoaderManager();
         loaderManager.initLoader(0, null,Play_Activity.this);
-
-
+        Button button=(Button)findViewById(R.id.lyrButton);
+        textView=(TextView)findViewById(R.id.lyricsbox);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LyricsCrawler lyr=new LyricsCrawler();
+                lyr.execute();
+            }
+        });
     }
 
     @Override
@@ -66,6 +116,36 @@ public class Play_Activity extends YouTubeBaseActivity implements LoaderCallback
         play=null;
 
     }
+
+    public class LyricsCrawler extends AsyncTask<Void,Void,Void>{
+        String str;
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                Document doc= Jsoup.connect("http://www.azlyrics.com/lyrics/"+newArtist+"/"+newSong+".html").get();
+                str=doc.html();
+                String up_partition = "<!-- Usage of azlyrics.com content by any third-party lyrics provider is prohibited by our licensing agreement. Sorry about that. -->";
+                String down_partition = "<!-- MxM banner -->";
+                str=str.split(up_partition)[1];
+                str=str.split(down_partition)[0];
+                str = str.replace("<br>","").replace("</br>","").replace("</div>","").trim();
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            textView.setText(str);
+            textView.setMovementMethod(new ScrollingMovementMethod());
+
+        }
+    }
+
 
 }
 

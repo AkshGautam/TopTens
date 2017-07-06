@@ -69,6 +69,8 @@ public class MainActivity extends AppCompatActivity {
     // SENDING API TO DIFFERENT ACTIVITY BY ADDING A YOUTUBE KEY PARAMETER IN INTENT
                 Intent i=new Intent(getApplicationContext(),Play_Activity.class);
                 i.putExtra("youtube",youtube_api);
+                i.putExtra("song",current.getTitle());
+                i.putExtra("artist",current.getArtist());
                 startActivity(i);
 
             }
