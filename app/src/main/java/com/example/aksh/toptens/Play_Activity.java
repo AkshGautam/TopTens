@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.util.List;
 
 import static android.R.attr.banner;
+import static android.R.attr.configChanges;
 import static com.example.aksh.toptens.R.id.artist;
 import static com.example.aksh.toptens.R.id.song;
 
@@ -47,24 +48,39 @@ public class Play_Activity extends YouTubeBaseActivity implements LoaderCallback
             song=extras.getString("song");
             artist=extras.getString("artist");
             artist=artist.toLowerCase();
+            int ind=-1;
+            ind=artist.indexOf("the");
+            if(ind==0)
+            {
+                artist=artist.replaceFirst("the","");
+            }
+            artist=artist.split("featuring",2)[0];
+            artist=artist.split(",",2)[0];
+            artist=artist.split("&",2)[0];
             Log.v("artist",artist);
             song=song.toLowerCase();
             song=song.split(" ",2)[1];
-            for(int i=0;i<song.length();i++)
-            {
-                if(song.charAt(i)==' ')
-                    continue;
-                else
-                    newSong+=song.charAt(i);
-
-            }
-            for(int i=0;i<artist.length();i++)
-            {
-                if(artist.charAt(i)==' ')
-                    continue;
-                else
-                    newArtist+=artist.charAt(i);
-            }
+            song=song.replaceAll("[^A-Za-z0-9]+","");
+            artist=artist.replaceAll("[^A-Za-z0-9]+","");
+            newSong=song;
+            newArtist=artist;
+//            for(int i=0;i<song.length();i++)
+//            {
+//                if(song.charAt(i)>='a'&&song.charAt(i)<='z')
+//                    newSong+=song.charAt(i);
+//                else
+//                    continue;
+//
+//
+//            }
+//            for(int i=0;i<artist.length();i++)
+//            {
+//                if(artist.charAt(i)>='a'&&artist.charAt(i)<='z')
+//                    newArtist+=artist.charAt(i);
+//                else
+//                    continue;
+//
+//            }
 
 
 //get the value based on the key
@@ -129,7 +145,7 @@ public class Play_Activity extends YouTubeBaseActivity implements LoaderCallback
                 String down_partition = "<!-- MxM banner -->";
                 str=str.split(up_partition)[1];
                 str=str.split(down_partition)[0];
-                str = str.replace("<br>","").replace("</br>","").replace("</div>","").trim();
+                str = str.replace("<br>","").replace("</br>","").replace("</div>","").replace("<i>","").replace("</i>","").trim();
 
 
             } catch (IOException e) {
