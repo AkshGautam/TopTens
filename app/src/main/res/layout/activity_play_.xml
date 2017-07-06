@@ -24,11 +24,14 @@
             android:id="@+id/lyricsbox"
             android:maxLines="20"
             android:scrollbars="vertical"
-            android:textColor="@color/text"/>
+            android:textColor="@color/text"
+            android:gravity="center"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="GetLyrics"
-            android:id="@+id/lyrButton"/>
+            android:id="@+id/lyrButton"
+            android:layout_gravity="center_horizontal"/>
+
 
 </LinearLayout>
